@@ -2,7 +2,7 @@ import CartModel from "../models/cart.model.js";
 
 // add to cart api
 const AddToCart = async (req, res) => {
-  const { userId, productId } = req.body;
+  const { userId, productId, qty = 1 } = req.body;
 
   try {
     let cart = await CartModel.findOne({ user: userId });
@@ -13,17 +13,19 @@ const AddToCart = async (req, res) => {
         items: [
           {
             product: productId,
-            qty: 1,
+            qty,
           },
         ],
       });
     } else {
-      const item = cart.items.find((item) => item.product.toString() === productId);
+      const item = cart.items.find(
+        (item) => item.product.toString() === productId,
+      );
 
       if (item) {
-        item.qty += 1;
+        item.qty += qty;
       } else {
-        cart.items.push({ product: productId, qty: 1 });
+        cart.items.push({ product: productId, qty });
       }
     }
 
@@ -45,7 +47,9 @@ const GetCart = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const FindCart = await CartModel.find({ user: userId }).populate("items.product")
+    const FindCart = await CartModel.find({ user: userId }).populate(
+      "items.product",
+    );
 
     return res
       .status(200)
