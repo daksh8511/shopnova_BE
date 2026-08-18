@@ -115,4 +115,26 @@ const SetAddress = async (req, res) => {
   }
 };
 
-export default { Signup, Login, SetAddress };
+const CheckUser = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ msg: "Email is required", success: false });
+  }
+
+  try {
+    const FindUser = await UserModel.findOne({
+      email: email.trim().toLowerCase(),
+    });
+    if (!FindUser) {
+      return res.status(200).json({
+        msg: "User not found. please create an account",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({ msg: "User found", success: true });
+  } catch (error) {}
+};
+
+export default { Signup, Login, SetAddress, CheckUser };
