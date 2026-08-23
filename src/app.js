@@ -16,8 +16,8 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       "https://shopnova-fe.vercel.app",
-      "https://seller-dashboard-be.onrender.com",
     ],
+    credentials : true
   }),
 );
 
