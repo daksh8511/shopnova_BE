@@ -16,8 +16,9 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       "https://shopnova-fe.vercel.app",
+      "https://seller-dashboard-be.onrender.com",
     ],
-  })
+  }),
 );
 
 app.use(express.json());
@@ -25,8 +26,8 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/cart", CartRoutes);
 
-app.get('/', (req, res) => {
-    res.send("Hello World");
-})
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 export default app;
