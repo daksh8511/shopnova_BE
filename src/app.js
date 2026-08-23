@@ -16,4 +16,8 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/cart", CartRoutes);
 
+app.get('/', (req, res) => {
+    res.send("Hello World");
+})
+
 export default app;
