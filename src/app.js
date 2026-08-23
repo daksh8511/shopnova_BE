@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import ConnectDB from "./db/ConnectDB.js";
 import authRoute from "./routes/auth.route.js";
-import productRoute from "./routes/product.route.js";
 import CartRoutes from "./routes/cart.route.js";
 
 dotenv.config();
@@ -15,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
-app.use("/api/product", productRoute);
 app.use("/api/cart", CartRoutes);
 
 export default app;

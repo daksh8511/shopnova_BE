@@ -47,13 +47,27 @@ const GetCart = async (req, res) => {
   const { userId } = req.params;
 
   try {
+    const rawCarts = await CartModel.find({ user: userId }).lean();
     const FindCart = await CartModel.find({ user: userId }).populate(
       "items.product",
     );
 
+    const cartsData = FindCart.map((cart, cIdx) => {
+      const cartObj = cart.toObject();
+      cartObj.items = (cartObj.items || []).map((item, iIdx) => {
+        const rawItem = rawCarts[cIdx]?.items?.[iIdx];
+        const rawProductId = rawItem?.product?.toString() || rawItem?.product;
+        return {
+          ...item,
+          productId: item.product?._id?.toString() || rawProductId,
+        };
+      });
+      return cartObj;
+    });
+
     return res
       .status(200)
-      .json({ msg: "Fetched carts", carts: FindCart, success: true });
+      .json({ msg: "Fetched carts", carts: cartsData, success: true });
   } catch (error) {
     return res.status(500).json({ msg: "Server side error", error });
   }
