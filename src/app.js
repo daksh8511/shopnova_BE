@@ -10,7 +10,16 @@ dotenv.config();
 const app = express();
 ConnectDB();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://shopnova-fe.vercel.app/",
+      "https://seller-dashboard-be.onrender.com/"
+    ],
+  })
+);
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
